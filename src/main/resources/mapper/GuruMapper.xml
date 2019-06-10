@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.mapper.GuruMapper">
+    <resultMap id="BaseResultMap" type="com.baizhi.entity.Guru">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="dharma" jdbcType="VARCHAR" property="dharma"/>
+        <result column="head_pic" jdbcType="VARCHAR" property="headPic"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="create_date" jdbcType="DATE" property="createDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, dharma, head_pic, status, create_date
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from guru
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from guru
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.baizhi.entity.Guru">
+    insert into guru (id, dharma, head_pic, 
+      status, create_date)
+    values (#{id,jdbcType=VARCHAR}, #{dharma,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE})
+  </insert>
+    <insert id="insertSelective" parameterType="com.baizhi.entity.Guru">
+        insert into guru
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dharma != null">
+                dharma,
+            </if>
+            <if test="headPic != null">
+                head_pic,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="dharma != null">
+                #{dharma,jdbcType=VARCHAR},
+            </if>
+            <if test="headPic != null">
+                #{headPic,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.baizhi.entity.Guru">
+        update guru
+        <set>
+            <if test="dharma != null">
+                dharma = #{dharma,jdbcType=VARCHAR},
+            </if>
+            <if test="headPic != null">
+                head_pic = #{headPic,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Guru">
+    update guru
+    set dharma = #{dharma,jdbcType=VARCHAR},
+      head_pic = #{headPic,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

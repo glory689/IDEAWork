@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.mapper.EchartMapper">
+    <select id="quertLineEcharts" resultType="Echarts">
+        select count (1) from user where datediff(NOW(),createDate) &lt;7
+    </select>
+
+    <select id="queryProvinceCount" resultType="Echarts">
+        select province,count(1) from user group by province
+    </select>
+</mapper>

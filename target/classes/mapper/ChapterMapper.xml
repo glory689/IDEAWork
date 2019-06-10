@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.mapper.ChapterMapper">
+    <resultMap id="BaseResultMap" type="Chapter">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="size" jdbcType="VARCHAR" property="size"/>
+        <result column="duration" jdbcType="VARCHAR" property="duration"/>
+        <result column="audio" jdbcType="VARCHAR" property="audio"/>
+        <result column="album_id" jdbcType="VARCHAR" property="album_id"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, size, duration, audio,album_id
+  </sql>
+
+    <!--根据分页查询所有-->
+    <select id="selectAllByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from chapter where album_id=#{albumId} limit ${(page-1)*rows},#{rows}
+    </select>
+    <!--查询总数量-->
+    <select id="selectTotalCount" resultType="Integer">
+    select count(1) from chapter
+  </select>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from chapter
+        where album_id = #{albumId,jdbcType=VARCHAR}
+    </select>
+
+    <!--删除-->
+    <delete id="deleteByKeys" parameterType="java.lang.String">
+        delete from chapter
+        where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <!--添加-->
+    <insert id="insert" parameterType="Chapter">
+    insert into chapter (id, album_id, title)
+    values (#{id,jdbcType=VARCHAR}, #{album_id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR})
+  </insert>
+
+    <!--修改标题-->
+    <update id="update" parameterType="com.baizhi.entity.Chapter">
+    update chapter set title = #{title,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--修改音频的大小、时长-->
+    <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Chapter">
+    update chapter
+    set
+      size = #{size,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      audio = #{audio,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+</mapper>

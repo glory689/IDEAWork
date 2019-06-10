@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.mapper.AdminMapper">
+    <select id="login" resultType="Admin">
+        select * from admin where username=#{username} and password=#{password}
+    </select>
+    <!--根据用户名和密码查询-->
+    <select id="selectByUsername" resultType="Admin">
+        select * from admin where username=#{username}
+    </select>
+    <!---->
+    <select id="selectByUsername" parameterType="java.lang.String" resultType="com.baizhi.entity.Admin">
+        select *
+        from admin
+        where username = #{username}
+    </select>
+
+    <select id="getRole" parameterType="java.lang.String" resultType="com.baizhi.entity.RoleDto">
+    select r.id as id,r.role_name as roleName from admin a join user_role ar
+	  on a.id = ar.user_id
+    join role r
+	  on r.id = ar.role_id
+    where a.id = #{subjectId}
+  </select>
+
+
+    <select id="getPermission" parameterType="java.lang.String" resultType="java.lang.String">
+
+    select p.permission_name as permissionName from role r join role_permission rp
+	  on r.id = rp.role_id
+    join permission p
+	  on p.id = rp.permission_id
+    where r.id = #{roleId}
+  </select>
+
+
+</mapper>

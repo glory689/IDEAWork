@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.mapper.AlbumMapper">
+    <resultMap id="BaseResultMap" type="Album">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="broadcast" jdbcType="VARCHAR" property="broadcast"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="brief" jdbcType="VARCHAR" property="brief"/>
+        <result column="create_date" jdbcType="DATE" property="createDate"/>
+        <result column="cover_pic" jdbcType="VARCHAR" property="coverPic"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, score, author, broadcast, count, brief, create_date, cover_pic
+  </sql>
+
+    <!--根据分页查询所有-->
+    <select id="selectAllByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from album limit ${(page-1)*rows},#{rows}
+    </select>
+    <!--查询总条数-->
+    <select id="selectTotalCount" resultType="Integer">
+    select count(*) from album
+  </select>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from album
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--删除-->
+    <delete id="deleteByPrimaryKeys" parameterType="java.lang.String">
+        delete from album
+        where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--添加-->
+    <insert id="insert" parameterType="Album">
+    insert into album (id, title, score, 
+      author, broadcast, count, 
+      brief, create_date, cover_pic
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{author,jdbcType=VARCHAR}, #{broadcast,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{brief,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{coverPic,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+    <insert id="insertSelective" parameterType="com.baizhi.entity.Album">
+        insert into album
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="author != null">
+                author,
+            </if>
+            <if test="broadcast != null">
+                broadcast,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="brief != null">
+                brief,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="coverPic != null">
+                cover_pic,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="broadcast != null">
+                #{broadcast,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="brief != null">
+                #{brief,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="coverPic != null">
+                #{coverPic,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.baizhi.entity.Album">
+        update album
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                score = #{score,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="broadcast != null">
+                broadcast = #{broadcast,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="brief != null">
+                brief = #{brief,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="coverPic != ''">
+                cover_pic = #{coverPic,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Album">
+    update album
+    set title = #{title,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      broadcast = #{broadcast,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      brief = #{brief,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE},
+      cover_pic = #{coverPic,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

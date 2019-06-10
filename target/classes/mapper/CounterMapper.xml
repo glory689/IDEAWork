@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.mapper.CounterMapper">
+    <resultMap id="BaseResultMap" type="com.baizhi.entity.Counter">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="last_time" jdbcType="DATE" property="lastTime"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="task_id" jdbcType="VARCHAR" property="taskId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, count, last_time, user_id, task_id
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from counter
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from counter
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.baizhi.entity.Counter">
+    insert into counter (id, title, count, 
+      last_time, user_id, task_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{lastTime,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.baizhi.entity.Counter">
+        insert into counter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="lastTime != null">
+                last_time,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="taskId != null">
+                task_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="lastTime != null">
+                #{lastTime,jdbcType=DATE},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="taskId != null">
+                #{taskId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.baizhi.entity.Counter">
+        update counter
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="lastTime != null">
+                last_time = #{lastTime,jdbcType=DATE},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="taskId != null">
+                task_id = #{taskId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Counter">
+    update counter
+    set title = #{title,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      last_time = #{lastTime,jdbcType=DATE},
+      user_id = #{userId,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
